@@ -22,6 +22,7 @@ if [ ! -d MetaXcan ]; then
         # Create environment manually as fallback (version numbers may need to be changed with future updates)
         conda create -n imlabtools python=3.8 numpy pandas scipy -y
     fi
+    cd ..
 fi
 
 #create imlabtools manually if needed (version numbers may need to be changed with future updates)
