@@ -52,6 +52,9 @@ bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --phecode <PHECODE> --pop 
 `<REF>` is the reference database to use  
 `<H2>` (optional flag) is the hertiability of the GWAS phenotype  
 `<N>` (optional flag) is the sample size of the GWAS summary statistics
+
+***Important***: Inclusion of H2 and N optional flags determines whether or not the newer elastic net models (if both are included) or older mashr models (if either one is not included). 
+
 - H2 and N will be printed by the 00wrapper.sh script if they are available within the hail table global statistics; use these values or researched values for input
 - Possible reference databases can be displayed by running `bash ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh --databases` 
   - Choose a database that corresponds to the phenotype of interest. For example, we used Muscle_Skeletal with a rheumatoid arthrithis dataset.
