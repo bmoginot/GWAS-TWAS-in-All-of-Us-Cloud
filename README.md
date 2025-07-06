@@ -39,8 +39,11 @@ This second wrapper performs the TWAS part of this tool. It executes setting up 
 
 **MUST BE PERFORMED AT LEAST ONCE PRIOR TO RUNNING S-PREDIXCAN:**
 1. Run in AoU terminal: `chmod +x ~/GWAS-TWAS-in-All-of-Us-Cloud/00twas-wrapper.sh`
-2. Run in AoU terminal: `gsutil ls` to find bucket name -> ex. `gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b`
-3. Run in lab server terminal: `gsutil -m cp -v /home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v //home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar gs://fc-secure-d80c2561-4630-4343-ab98-9fb7fcc9c21b/data/`
+2. Run in AoU terminal: `gsutil ls` to find bucket name -> ex. `gs://fc-secure-915a27e9-c961-4aa0-b53f-09825278579c`
+3. Run in AoU terminal: `gcloud config get-value project` to find project name
+4. Run in lab server terminal: `gcloud auth login`, then follow prompts to log into AoU account
+5. Run in lab server terminal: `gcloud config set project {PASTE_YOUR_TERRA_ID_HERE}`
+6. Run in lab server terminal: `gsutil -m cp -v /home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar {PASTE_YOUR_BUCKET_HERE}/data/` -> ex. `gsutil -m cp -v /home/wheelerlab3/Data/predictdb_models/elastic-net-with-phi.tar gs://fc-secure-915a27e9-c961-4aa0-b53f-09825278579c/data/`
 
 Run the wrapper via
 ```
