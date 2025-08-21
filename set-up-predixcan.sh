@@ -10,6 +10,11 @@ if [ ! -d ~/miniconda3 ]; then
     conda init bash
 fi 
 
+#accept permissions
+conda config --set channel_priority strict
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 #clone repo and create environment
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
