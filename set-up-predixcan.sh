@@ -1,6 +1,6 @@
-#! /bin/bash
+#!/bin/bash
 
-#install and initialize miniconda
+#install and initialize miniconda if not present
 if [ ! -d ~/miniconda3 ]; then
     mkdir -p ~/miniconda3
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
@@ -8,32 +8,35 @@ if [ ! -d ~/miniconda3 ]; then
     rm ~/miniconda3/miniconda.sh
     eval "$(~/miniconda3/bin/conda shell.bash hook)"
     conda init bash
-fi 
+fi
 
-#accept permissions
-conda config --set channel_priority strict
+#use the user-level conda
+export PATH=~/miniconda3/bin:$PATH
+eval "$(conda shell.bash hook)"
+
+#accept terms of service
 conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
 conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 
-#clone repo and create environment
+#set strict channel priority and configure channels
+conda config --set channel_priority strict
+conda config --remove-key channels 2>/dev/null || true
+conda config --add channels conda-forge
+
+#clone MetaXcan repo if needed
 if [ ! -d MetaXcan ]; then
     git clone https://github.com/hakyimlab/MetaXcan
-    cd MetaXcan
-    #git checkout 76a11b856f3cbab0b866033d518c201374a5594b
-    if [ -f MetaXcan/software/conda_env.yaml ]; then
-        conda env create -f MetaXcan/software/conda_env.yaml
-        cd ..
-    else
-        # Create environment manually as fallback (version numbers may need to be changed with future updates)
-        conda create -n imlabtools python=3.8 numpy pandas scipy -y
-    fi
-    cd ..
 fi
 
-#create imlabtools manually if needed (version numbers may need to be changed with future updates)
-if ! conda env list | grep -q imlabtools; then
-    echo "Failed to create imlabtools environment, creating manually"
-    conda create -n imlabtools python=3.8 numpy pandas scipy h5py -y
+#create or recreate imlabtools environment with compatible versions
+if conda env list | grep -q imlabtools; then
+    echo "imlabtools environment exists, activating..."
+    conda activate imlabtools
+    # Fix NumPy version if needed
+    conda install "numpy<2.0" scipy=1.10.1 -y
+else
+    echo "Creating imlabtools environment with compatible package versions..."
+    conda create -n imlabtools python=3.8 "numpy<2.0" pandas scipy=1.10.1 h5py -y
 fi
         
 #download databases
